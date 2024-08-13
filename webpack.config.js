@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = env => {
   return {
@@ -12,14 +13,6 @@ module.exports = env => {
       filename: 'bundle.[contenthash].js',
       path: path.resolve(__dirname, 'build'),
     },
-
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'pug', 'template.pug'),
-        filename: 'index.html',
-      }),
-      new CleanWebpackPlugin(),
-    ],
 
     module: {
       rules: [
@@ -39,10 +32,21 @@ module.exports = env => {
         },
         {
           test: /\.(scss|css)$/,
-          use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
         },
       ],
     },
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'src', 'pug', 'template.pug'),
+        filename: 'index.html',
+      }),
+      new CleanWebpackPlugin(),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
+    ],
 
     devServer: {
       watchFiles: path.join(__dirname, 'src'),
