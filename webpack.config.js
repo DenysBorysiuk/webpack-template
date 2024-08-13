@@ -15,7 +15,7 @@ module.exports = env => {
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'template.html'),
+        template: path.resolve(__dirname, 'src', 'pug', 'template.pug'),
         filename: 'index.html',
       }),
       new CleanWebpackPlugin(),
@@ -33,8 +33,17 @@ module.exports = env => {
             },
           },
         },
+        {
+          test: /\.pug$/,
+          loader: 'pug-loader',
+        },
+        {
+          test: /\.(scss|css)$/,
+          use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        },
       ],
     },
+
     devServer: {
       watchFiles: path.join(__dirname, 'src'),
       port: 9000,
