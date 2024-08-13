@@ -1,14 +1,15 @@
 {
+  "author": "Denys Borysiuk",
   "name": "webpack_boilerplate",
   "version": "1.0.0",
-  "description": "",
+  "description": "Webpack, pug, scss template",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --open --env mode=development",
-    "build": "webpack --env mode=production"
+    "build": "webpack --env mode=production",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.25.2",
