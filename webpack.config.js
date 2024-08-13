@@ -6,7 +6,7 @@ module.exports = env => {
     mode: env.mode ?? 'development',
     entry: path.resolve(__dirname, 'src', 'index.js'),
     output: {
-      filename: 'bundle.js',
+      filename: 'bundle.[contenthash].js',
       path: path.resolve(__dirname, 'build'),
     },
     plugins: [
@@ -28,6 +28,10 @@ module.exports = env => {
           },
         },
       ],
+    },
+    devServer: {
+      watchFiles: path.join(__dirname, 'src'),
+      port: 9000,
     },
   };
 };
