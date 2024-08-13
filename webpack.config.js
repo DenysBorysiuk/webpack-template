@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = env => {
   return {
@@ -63,6 +64,24 @@ module.exports = env => {
     devServer: {
       watchFiles: path.join(__dirname, 'src'),
       port: 9000,
+    },
+
+    optimization: {
+      minimizer: [
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['gifsicle', { interlaced: true }],
+                ['jpegtran', { progressive: true }],
+                ['optipng', { optimizationLevel: 5 }],
+                ['svgo', { name: 'preset-default' }],
+              ],
+            },
+          },
+        }),
+      ],
     },
   };
 };
