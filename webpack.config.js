@@ -11,9 +11,23 @@ module.exports = env => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'src', 'template.html'),
+        template: path.resolve(__dirname, 'src', 'template.html'),
         filename: 'index.html',
       }),
     ],
+    module: {
+      rules: [
+        {
+          test: /\.(?:js|mjs|cjs)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [['@babel/preset-env', { targets: 'defaults' }]],
+            },
+          },
+        },
+      ],
+    },
   };
 };
