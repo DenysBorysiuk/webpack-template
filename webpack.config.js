@@ -52,7 +52,7 @@ module.exports = env => {
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'pug', 'layout', 'layout.pug'),
+        template: path.resolve(__dirname, 'src', 'pug', 'layout', 'base.pug'),
         filename: 'index.html',
       }),
       new CleanWebpackPlugin(),
