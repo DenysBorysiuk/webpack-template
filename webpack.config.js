@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
   return {
@@ -43,6 +43,7 @@ module.exports = env => {
         {
           test: /\.svg$/,
           type: 'asset/resource',
+          exclude: path.resolve(__dirname, 'assets', 'icons'),
           generator: {
             filename: path.join('icons', '[name].[contenthash][ext]'),
           },
@@ -52,10 +53,22 @@ module.exports = env => {
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'pug', 'layout', 'layout.pug'),
+        template: path.resolve(__dirname, 'src', 'pug', 'layout.pug'),
         filename: 'index.html',
       }),
       new CleanWebpackPlugin(),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'src', 'assets', 'favicons'),
+            to: path.resolve(__dirname, 'build'),
+          },
+          {
+            from: path.resolve(__dirname, 'src', 'assets', 'icons'),
+            to: path.resolve(__dirname, 'build', 'images'),
+          },
+        ],
+      }),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css',
       }),
@@ -64,24 +77,6 @@ module.exports = env => {
     devServer: {
       watchFiles: path.join(__dirname, 'src'),
       port: 9000,
-    },
-
-    optimization: {
-      minimizer: [
-        new ImageMinimizerPlugin({
-          minimizer: {
-            implementation: ImageMinimizerPlugin.imageminMinify,
-            options: {
-              plugins: [
-                ['gifsicle', { interlaced: true }],
-                ['jpegtran', { progressive: true }],
-                ['optipng', { optimizationLevel: 5 }],
-                ['svgo', { name: 'preset-default' }],
-              ],
-            },
-          },
-        }),
-      ],
     },
   };
 };
