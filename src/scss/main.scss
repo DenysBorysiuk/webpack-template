@@ -1,3 +1,8 @@
+// utils styles
+@import './utils/variables';
+@import './utils/visually-hidden';
+
 // base styles
 @import './base/common';
+@import './base/fonts';
 @import './base/reset';

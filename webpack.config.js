@@ -13,7 +13,7 @@ module.exports = env => {
     output: {
       filename: 'bundle.[contenthash].js',
       path: path.resolve(__dirname, 'build'),
-      assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+      assetModuleFilename: path.join('[name].[contenthash][ext]'),
     },
 
     module: {
@@ -38,6 +38,10 @@ module.exports = env => {
         },
         {
           test: /\.(png|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.(woff2?|eot|ttf|otf)$/i,
           type: 'asset/resource',
         },
         {
